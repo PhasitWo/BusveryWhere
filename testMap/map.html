@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+      <meta charset="UTF-8">
+      <title>Create Map Sample | Longdo Map</title>
+      <style type="text/css">
+        html{
+          height:100%;
+        }
+        body{
+          margin:0px;
+          height:100%;
+        }
+        .float {
+          padding: 20px;
+        }
+        .float-child {
+          float: left;
+          padding: 20px;
+        }
+
+        #search {
+          width: 30%;
+
+        }
+        #map-container {
+          height: 600px;
+          width: 60%;
+        }
+        #map {
+          height: 100%;
+          width: 100%;
+        }
+        #result {
+            display: none;
+        }
+      </style>
+      <script type="text/javascript" src="https://api.longdo.com/map/?key=fe75c23350d22e5b0ff781a28a09aaf5"></script>
+      <script src="map.js"></script>
+  </head>
+  <body onload="init()">
+    <div class="float">
+      <div class='float-child' id="search">
+        <label for="start">start:</label>
+        <input id="start" value="Current Location" readonly><br><br>
+        <label for="destination">destination:</label>
+        <select id="destination">
+        </select><br><br>
+        <button onclick="findRoute()"> abc </button>
+        <ol id="list"></ol>
+      </div>
+      <div class='float-child' id="map-container">
+        <div id="map"></div>
+        <div id="result"></div>
+      </div>
+    </div>
+  </body>
+</html>
