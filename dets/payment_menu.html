@@ -1,0 +1,203 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BusveryWhere</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@200;300&family=Roboto+Slab&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="js/respond.min.js"></script>
+
+    <style type="text/css">
+        
+        /* Popup styles */
+        .popup {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    .popup-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #fefefe;
+        padding: 20px;
+        border: 1px solid #888;
+    }
+    .close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 10px;
+    cursor: pointer;
+    }
+    .tranBox {
+        background-color: #fefefe;
+        border-radius: 30px;
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+
+    </style>
+    <script type="text/javascript" src="https://api.longdo.com/map/?key=fe75c23350d22e5b0ff781a28a09aaf5"></script>
+</head>
+
+<body>
+    <div id="menu" class="menu">
+        <a href="#" onclick="toggleMenu()"><h2>เมนู</h2></a>
+        <ul class="menu-list" style="display: none;">
+            <li><a href="map2.html"><h3>แผนที่: เริ่มต้นการเดินทาง</h3></a></li>
+            <li><a href="#"><h3>ชำระเงิน</h3></a></li>
+            <li><a href="#"><h3>บัญชีผู้ใช้</h3></a></li>
+            <li><a href="index.html"><h3>ออกจากระบบ</h3></a></li>
+        </ul> 
+    </div>
+
+        <div class="row" style="margin-top: 20px; margin-left: 20px;">
+            <!-- JavaScript will generate and insert trip panels here -->
+        </div>
+    </div>
+</body>
+
+<script>
+    function toggleMenu() {
+        var menuList = document.querySelector(".menu-list");
+        menuList.style.display = menuList.style.display === "block" ? "none" : "block";
+    }
+    var tripData = [{
+            //NEW
+            
+            status: "ยังไม่ได้ชำระ",
+            date: "13/11/2023",
+            startTime: "7.45 น.",
+            endTime: "8.04 น.",
+            from: "วิช แอท สามย่าน",
+            to: "คณะนิติศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย",
+            payment: false,
+        },
+        {
+
+            status: "ยังไม่ได้ชำระ",
+            date: "12/11/2023",
+            startTime: "7.21 น.",
+            endTime: "7.42 น.",
+            from: "วิช แอท สามย่าน",
+            to: "คณะวิทยาศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย",
+            payment: false,
+        },
+        {
+            status: "ชำระเรียบร้อยแล้ว",
+            date: "9/11/2023",
+            startTime: "11:27 น.",
+            endTime: "11:41 น.",
+            from: "คณะเภสัชศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย",
+            to: "National Stadium",
+            payment: true,
+        },
+        
+        {
+            status: "ชำระเรียบร้อยแล้ว",
+            date: "8/11/2023",
+            startTime: "12:11 น.",
+            endTime: "12:27 น.",
+            from: "สถานีตำรวจบางรัก",
+            to: "Siam Square",
+            payment: true,
+        },
+    ];
+    if (sessionStorage.getItem("tripData") == null) {
+        sessionStorage.setItem("tripData", JSON.stringify(tripData))
+    }
+    function createTripPanel(data, index) {
+        return `
+        <div class="tranBox">
+            <h4>
+                <p>
+                    ${data.status}   <span style="background-color: ${data.status === "ชำระเรียบร้อยแล้ว" ? "rgb(49, 222, 49)" : "red"}; color: white; width: 30px; height: 30px; display: inline-flex; justify-content: center; align-items: center; border-radius: 50%;">${data.status === "ชำระเรียบร้อยแล้ว" ? "&#10004;" : "<i class='fa fa-times'></i>"}</span>
+                </p>
+                <p>วันที่ ${data.date}</p>
+                <p>เวลาเริ่มต้นการเดินทาง ${data.startTime}</p>
+                <p>เวลาสิ้นสุดการเดินทาง ${data.endTime}</p>
+                <p>จาก: ${data.from}</p>
+                <p>ไปยัง: ${data.to}</p>
+                ${data.payment === false ? '<button onclick="openPaymentPopup('+index+')">ชำระเงิน</button>' : ''}
+                
+            </h4>
+        </div>
+        <div id="paymentPopup-${index}" class="popup">
+            <div class="popup-content">
+                <span class="close" onclick="closePaymentPopup(${index})">&times;</span>
+                <h4>
+                    <p>กำลังทำการชำระเงินผ่านผู้ให้บริการโทรศัพท์</p>
+                    <p>เบอร์ xxx-xxx0920</p>
+                    <p>กรุณากรอกรหัส OTP เพื่อยืนยันการชำระเงิน</p>
+                </h4>
+               
+                    <div class="form-group">
+                        <input id="otpInput" class="form-control" placeholder="รหัส OTP" value="" maxlength="4">
+                        (รหัสอ้างอิง ${randomOTP()})
+                    </div>
+                    <button onclick="handlePaymentSubmission(${index})" class="btn btn-primary">ยืนยันการชำระเงิน</button>
+                
+                <!-- Add payment content here -->
+            </div>
+        </div>
+        `;
+    }
+    function openPaymentPopup(id) {
+        const paymentPopup = document.getElementById(`paymentPopup-${id}`);
+        paymentPopup.style.display = "block";
+    }
+    function randomOTP() {
+        const characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        let otp = '';
+        for (let i = 0; i < 5; i++) {
+            otp += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+    return otp;
+    }
+    function closePaymentPopup(id) {
+        const paymentPopup = document.getElementById(`paymentPopup-${id}`);
+        paymentPopup.style.display = "none";
+    }
+    
+    function handlePaymentSubmission(id) {
+        // Here, you can change the data.payment to true and refresh the page.
+        let sessionData = JSON.parse(sessionStorage.getItem("tripData"))
+        sessionData[id].payment = true
+        sessionData[id].status = "ชำระเรียบร้อยแล้ว"
+        sessionStorage.setItem("tripData", JSON.stringify(sessionData))
+        closePaymentPopup(id)
+        location.reload()
+    }
+        
+    function insertTripPanels() {
+        var tripContainer = document.querySelector(".row");
+        sessionData = JSON.parse(sessionStorage.getItem("tripData"))
+        sessionData.forEach(function (data, index) {
+            var panelHTML = createTripPanel(data, index);
+            var panel = document.createElement("div");
+            panel.innerHTML = panelHTML;
+            tripContainer.appendChild(panel);
+        });
+    }
+
+    insertTripPanels();
+
+
+</script>
+
+</html>
+
+
+<!DOCTYPE html>
+<html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BusveryWhere - Map</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="css/datepicker3.css" rel="stylesheet"> -->
+    <link href="css/styles.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@200;300&family=Roboto+Slab&display=swap" rel="stylesheet">
+    <script src="js/respond.min.js"></script>
+    <script type="text/javascript" src="https://api.longdo.com/map/?key=fe75c23350d22e5b0ff781a28a09aaf5"></script>
+    <!-- Microphone icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style type="text/css">
+        .popup {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);}
+
+        .popup-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fefefe;
+            padding: 20px;
+            border: 1px solid #888;}
+        #qrCodeImage {
+            max-width: 350px;
+            max-height: 350px;}
+    </style>
+</head>
+
+<body onload="init()">
+    <div id="menu" class="menu">
+            <a href="#" onclick="toggleMenu()"><h2>เมนู</h2></a>
+            <ul class="menu-list" style="display: none;">
+                <li><a href="#"><h3>แผนที่: เริ่มต้นการเดินทาง</h3></a></li>
+                <li><a href="payment_menu.html"><h3>ชำระเงิน</h3></a></li>
+                <li><a href="#"><h3>บัญชีผู้ใช้</h3></a></li>
+                <li><a href="index.html"><h3>ออกจากระบบ</h3></a></li>
+            </ul> 
+        </div>
+        <div class="container">
+        <div id="content">
+            <div id="search">
+                <h1>มาเริ่มการเดินทางของคุณกันเถอะ</h1>
+                <label for="start">
+                    <h3>ฉันต้องการเริ่มเดินทางจาก:</h3>
+                    <i class="microphone-icon fa fa-microphone" onclick="startListening('start')"></i>
+                </label>
+                <div class="form-group">
+                    <h4><input id="start" value="ตำแหน่งปัจจุบัน" readonly></h4>
+                </div>
+                <label for="destination">
+                    <h3>ฉันอยากไปที่:</h3>
+                    <i class="microphone-icon fa fa-microphone" onclick="startListening('destination')"></i>
+                </label>
+                <h4><input autocomplete="off" type="text" id="destination" list="places-list"><br><br>
+                    <datalist id="places-list">
+                    </datalist>
+                    <div id="voice-result"></div>
+                    <button onclick="findRoute()">ค้นหาเส้นทาง</button>
+                    <h4 id="please" style="display: none;">กรุณาเลือกเส้นทางจากตัวเลือกด้านล่าง</h4>
+                    <h3><ol id="list"></ol></h3>
+                    <div>
+                        <button id="confirmButton" style="display: none;" onclick="showQrCode()">
+                            ยืนยันการเลือกเส้นทาง</button>
+                    </div>
+                    <br>
+                    <div id="qrCode" style="display: none;">
+                        <h4>เมื่อรถมาถึงแล้ว กรุณากดปุ่มด้านล่างเพื่อสแกน QR code กับเจ้าหน้าที่เพื่อขึ้นใช้บริการรถโดยสาธารณะ</h4>
+                        <button id="qrCodeButton" onclick="togglePopup()">QR code เพื่อสแกนขึ้นรถ</button>
+                    </div>
+                
+                    <div id="qrCodePopup" class="popup">
+                        <div class="popup-content">
+                            <img id="qrCodeImage" src="QR_fake.png" alt="QR Code">
+                            <div> <button onclick="closePopup()">Close</button> </div>
+                            
+                        </div>
+                    </div>
+
+                </div>
+                <div id="map-container">
+                    <div id="map"></div>
+                    <div id="result"></div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+    <script src="map.js"></script>
+    <script>
+        function showQrCode() {
+            document.getElementById("qrCode").style.display = "block";
+        }
+        function toggleMenu() {
+            var menuList = document.querySelector(".menu-list");
+            if (menuList.style.display === "none") {
+                menuList.style.display = "block";
+            } else {
+                menuList.style.display = "none";
+            }
+        }
+        function startListening(inputId) {
+            const recognition = new webkitSpeechRecognition() || SpeechRecognition();
+            recognition.lang = 'th-TH'; // Set the language for recognition
+            recognition.onresult = function (event) {
+                const transcript = event.results[0][0].transcript;
+                document.getElementById(inputId).value = transcript; // Update the input field value
+                const e = new Event("input")
+                const element = document.getElementById(inputId)
+                element.focus()
+                element.dispatchEvent(e)
+            };
+            recognition.start();
+        }
+        function togglePopup() {
+            var popup = document.getElementById("qrCodePopup");
+            popup.style.display = popup.style.display === "none" ? "block" : "none";
+        }
+
+        function closePopup() {
+            document.getElementById("qrCodePopup").style.display = "none";
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BusveryWhere - Login</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/datepicker3.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@200;300&family=Roboto+Slab&display=swap" rel="stylesheet">
+    <script src="js/respond.min.js"></script>
+</head>
+<body>
+
+<div class="row">
+    <h1 align="center">BusveryWhere</h1>
+    <h3 align="center">ให้การเดินทางของคุณเป็นเรื่องง่าย</h3>
+    <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
+        <div class="login-panel panel panel-default">
+            <div class="panel-heading">เข้าสู่ระบบ</div>
+            <div class="panel-body">
+                <p style="font-size: 16px; color: red" align="center"> </p>
+                <form role="form" action="" method="post" id="login-form" name="login">
+                    <fieldset>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="เบอร์โทรศัพท์" name="mobilenumber" id="mobileInput" type="text" required="true" maxlength="10">
+                        </div>
+                        
+                        ลืมรหัสผ่านหรอ <a href="forgot-password.html">ลืมรหัสผ่าน?</a>
+                        
+                        <div class="form-group">
+                            <input class="form-control" placeholder="รหัสผ่าน" name="password" id="passwordInput" type="password" value="" required="true">
+                        </div>
+                        
+                        <div class="checkbox">
+                            <a class="btn btn-primary" id="login-button" onclick="validateLogin()">Login</a>
+                        </div>
+
+                        <div style="text-align: right;">
+                            ยังไม่ได้เป็นสมาชิกกับเราหรอ?
+                            <br>
+                            <a href="register_menu.html">ลงทะเบียนผู้ใช้ใหม่</a>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div><!-- /.col-->
+</div><!-- /.row -->	
+
+<script src="js/jquery-1.11.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+
+<script>
+    // Add an event listener to the login button for form validation
+    document.getElementById("login-button").addEventListener("click", function (event) {
+        var mobileNumber = document.getElementsByName("mobilenumber")[0].value;
+        var password = document.getElementsByName("password")[0].value;
+
+        if (mobileNumber === "" || password === "") {
+            event.preventDefault();
+            alert("กรุณากรอก \"เบอร์โทรศัพท์หรืออีเมล์\" และ \"รหัสผ่าน\" ก่อนเข้าสู่ระบบ!");
+        }
+    });
+    function validateLogin() {
+        const mobileNumber = document.getElementById("mobileInput").value;
+        const password = document.getElementById("passwordInput").value;
+
+        // Check the fixed mobile number and password
+        if (mobileNumber === "0881230920" && password === "1234") {
+            window.location.href = "map2.html"; // Redirect to the map page
+        } else {
+            alert("คุณกรอกรหัสเบอร์โทรศัพท์หรือรหัสผ่านผิด")
+        }
+    }
+</script>
+
+</body>
+</html>

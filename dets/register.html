@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>BusveryWhere - Signup</title>
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/datepicker3.css" rel="stylesheet">
+	<link href="css/styles.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Mitr:wght@200;300&family=Roboto+Slab&display=swap" rel="stylesheet">	<script src="js/respond.min.js"></script>
+
+	<script type="text/javascript">
+function checkpass()
+{
+if(document.signup.password.value!=document.signup.repeatpassword.value)
+{
+alert('รหัสผ่านไม่ตรงกัน');
+document.signup.repeatpassword.focus();
+return false;
+}
+return true;
+} 
+
+</script>
+<body>
+	<div class="row">
+		<h1 align="center">BusveryWhere</h1>
+        <h3 align="center">มาเริ่มต้นการเดินทางของคุณกันเถอะ</h3>
+		<div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
+			<div class="login-panel panel panel-default">
+				<div class="panel-heading">สมัครสมาชิก</div>
+				<div class="panel-body">
+					<form role="form" action="" method="post" id="" name="signup" onsubmit="return checkpass();">
+						<p style="font-size:16px; color:red" align="center">
+						<fieldset>
+                            <div class="form-group inline-form-group">
+                                <input class="form-control" placeholder="ชื่อ" name="name" type="text" required="true">
+                            </div>
+                            
+                            <div class="form-group inline-form-group">
+                                <input class="form-control" placeholder="นามสกุล" name="surname" type="text" required="true">
+                            </div>
+                            <!--
+								<div class="form-group">
+								<input type="checkbox" id="disability-checkbox" onchange="toggleInput(this)"> ฉันเป็นผู้พิการ
+							</div>
+							<div class="form-group" id="input-div" style="display: none;">
+								<input class="form-control" id="id-input" placeholder="รหัสบัตรประจำตัวประชาชน" maxlength="13">
+							</div>
+							-->
+                            
+							
+
+							<div class="form-group">
+								<input type="text" class="form-control" id="mobilenumber" name="mobilenumber" placeholder="เบอร์โทรศัพท์" maxlength="10" pattern="[0-9]{10}" required="true">
+							</div>
+							<!--
+                            <div class="form-group">
+								<input class="form-control" placeholder="อีเมล์" name="email" type="email" required="true">
+							</div>
+							-->
+							<div class="form-group">
+								<input class="form-control" placeholder="รหัสผ่าน" name="password" type="password" value="" required="true">
+							</div>
+
+							<div class="form-group">
+								<input type="password" class="form-control" id="repeatpassword" name="repeatpassword" placeholder="ยืนยันรหัสผ่าน" required="true">
+							</div>
+                            <div class="form-group">
+                                <label for="birthday">วันเกิด</label>
+                                <input type="date" class="form-control" id="birthday" name="birthday">
+                            </div>
+                            <div class="form-group">
+                                <label for="gender">เพศ</label>
+                                <select class="form-control" id="gender" name="gender">
+                                  <option value="ชาย">ชาย</option>
+                                  <option value="หญิง">หญิง</option>
+                                  <option value="ไม่ระบุ">ไม่ระบุ</option>
+                                </select>
+                              </div>
+
+							<div class="checkbox">
+								<button type="submit" value="submit" name="submit" class="btn btn-primary">ลงทะเบียน</button>
+							</div>
+							<div style="text-align: right;">
+								<a href="index.html">กลับสู่หน้า Login</a>
+							</div>
+							 </fieldset>
+					</form>
+				</div>
+			</div>
+		</div><!-- /.col-->
+	</div><!-- /.row -->	
+	
+<script src="js/jquery-1.11.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	
+    <script>
+        // Get references to the checkbox and the input-div
+        var checkbox = document.getElementById("disability-checkbox");
+        var inputDiv = document.getElementById("input-div");
+    
+        // Add an event listener to the checkbox to toggle the input-div's visibility
+        checkbox.addEventListener("change", function() {
+            inputDiv.style.display = checkbox.checked ? "block" : "none";
+        });
+		function toggleInput(checkbox) {
+			var input = document.getElementById("id-input");
+			if (checkbox.checked) {
+				input.required = true;
+				input.style.display = "block";
+			} else {
+				input.required = false;
+				input.style.display = "none";
+			}
+		}
+    </script>
+	
+</body>
+</html>
